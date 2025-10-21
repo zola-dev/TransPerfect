@@ -10,13 +10,55 @@ import { ApiResponse, ApiError, RequestConfig } from '../types';
  * - Request/Response interceptors
  * - Timeout management
  * - Centralized error handling
- * 
- * In production, this would connect to a real backend API.
- * For this demo, it uses JSONPlaceholder mock API.
+ * - In production, this would connect to a real backend API.
+ * - For this demo, it uses JSONPlaceholder mock API.
+*/
+/**
+ * @method addRequestInterceptor Adds a request interceptor to modify request configurations.
+ * @param {(config: RequestConfig) => RequestConfig} interceptor - Function to process request configs.
+ *
+ * @method addResponseInterceptor Adds a response interceptor to handle or modify responses.
+ * @param {(response: Response) => Response | Promise<Response>} interceptor - Function to process responses.
+ *
+ * @method setCSRFToken Manually sets a CSRF token.
+ * @param {string} token - The CSRF token string to store.
+ *
+ * @method fetchCSRFToken Fetches a CSRF token from the backend.
+ * @returns {Promise<void>} A promise that resolves when the token is fetched successfully.
+ *
+ * @method get Sends a GET request.
+ * @param {string} endpoint - The API endpoint.
+ * @param {{[key: string]: string}} [headers] - Optional headers to include in the request.
+ * @returns {Promise<ApiResponse<T>>} The API response data.
+ *
+ * @method post Sends a POST request.
+ * @param {string} endpoint - The API endpoint.
+ * @param {any} [body] - Optional request body.
+ * @param {{[key: string]: string}} [headers] - Optional headers to include in the request.
+ * @returns {Promise<ApiResponse<T>>} The API response data.
+ *
+ * @method put Sends a PUT request.
+ * @param {string} endpoint - The API endpoint.
+ * @param {any} [body] - Optional request body.
+ * @param {{[key: string]: string}} [headers] - Optional headers to include in the request.
+ * @returns {Promise<ApiResponse<T>>} The API response data.
+ *
+ * @method delete Sends a DELETE request.
+ * @param {string} endpoint - The API endpoint.
+ * @param {{[key: string]: string}} [headers] - Optional headers to include in the request.
+ * @returns {Promise<ApiResponse<T>>} The API response data.
+ *
+ * @example
+ * const httpClient = new HttpClientService('https://jsonplaceholder.typicode.com', 10000);
+ *
+ * httpClient.get('/posts')
+ *   .then(res => console.log(res.data))
+ *   .catch(err => console.error(err));
  */
 class HttpClientService {
+  
   private baseURL: string;
-  private defaultHeaders: HeadersInit;
+  private defaultHeaders: Record<string, string>;
   private timeout: number;
   private requestInterceptors: Array<(config: RequestConfig) => RequestConfig>;
   private responseInterceptors: Array<(response: Response) => Response | Promise<Response>>;
@@ -73,7 +115,7 @@ class HttpClientService {
   private async request<T>(endpoint: string, config: RequestConfig = {}): Promise<ApiResponse<T>> {
     const interceptedConfig = await this.applyRequestInterceptors(config);
     const url = `${this.baseURL}${endpoint}`;
-    const headers: HeadersInit = { ...this.defaultHeaders, ...interceptedConfig.headers };
+    const headers: Record<string, string> = { ...this.defaultHeaders, ...(interceptedConfig.headers || {}) };
     if (this.csrfToken && ['POST', 'PUT', 'DELETE', 'PATCH'].includes(interceptedConfig.method || '')) {
       (headers as Record<string, string>)['X-CSRF-Token'] = this.csrfToken;
     }
@@ -131,19 +173,19 @@ class HttpClientService {
     }
   }
 
-  async get<T>(endpoint: string, headers?: HeadersInit): Promise<ApiResponse<T>> {
+  async get<T>(endpoint: string, headers?: Record<string, string>): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, { method: 'GET', headers });
   }
 
-  async post<T>(endpoint: string, body?: any, headers?: HeadersInit): Promise<ApiResponse<T>> {
+  async post<T>(endpoint: string, body?: any, headers?: Record<string, string>): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, { method: 'POST', body, headers });
   }
 
-  async put<T>(endpoint: string, body?: any, headers?: HeadersInit): Promise<ApiResponse<T>> {
+  async put<T>(endpoint: string, body?: any, headers?: Record<string, string>): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, { method: 'PUT', body, headers });
   }
 
-  async delete<T>(endpoint: string, headers?: HeadersInit): Promise<ApiResponse<T>> {
+  async delete<T>(endpoint: string, headers?: Record<string, string>): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, { method: 'DELETE', headers });
   }
 }

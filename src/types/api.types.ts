@@ -10,7 +10,7 @@ export interface ApiResponse<T> {
   }
   export interface RequestConfig {
     method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
-    headers?: HeadersInit;
+    headers?: Record<string, string>;
     body?: any;
     timeout?: number;
   }
