@@ -1,46 +1,63 @@
-# Getting Started with Create React App
+# TransPerfect Assignment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1.installation 
+## Getting Started
 
-## Available Scripts
+1. **Clone the repository:**
 
-In the project directory, you can run:
+```bash
+git clone https://github.com/zola-dev/TransPerfect.git
+cd TransPerfect
+npm install
+npm start
+Open http://localhost:3000 in your browser to test the application.
 
-### `npm start`
+2.Description
+TransPerfect is a React (Class Components) user management and search application.
+The project demonstrates fetching, filtering, and displaying users from a public API, implementing basic table actions, and adding bonus features for enhanced usability.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Task Requirements Completed
+Data Fetching
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Fetched users from JSONPlaceholder
 
-### `npm test`
+Showed a loading spinner while fetching data
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Stored the fetched data in the App component state
 
-### `npm run build`
+Data Display
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Passed data to the UserTable child component
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Data Filtering
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Created a Filter component for user input
 
-### `npm run eject`
+Filtered data by name or email
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Table Actions
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Delete user from the list
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Edit user inline in the table
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Extra / Bonus Features Implemented
+Add Users functionality alongside Delete and Edit
 
-## Learn More
+Wildcard search option for flexible filtering
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Case-sensitive toggle for search
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Services
+
+HttpClientService handles HTTP requests
+
+UserService manages user operations
+
+For this demo, uses JSONPlaceholder mock API
+
+Easily switchable to a real backend API
+
+
+
+
