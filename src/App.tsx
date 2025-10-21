@@ -8,6 +8,7 @@ import { FilterOptions, User, DetailedUser, ApiError } from './types';
 import { filterAndSortUsers } from './utils';
 import { LoadingSpinner, FilterBar, DataTable, AddUserButton, UserDetails } from './components';
 //import { userService } from './services';//for real API
+import { filter, take } from "rxjs/operators";
 import './App.css';
 
 // const App: React.FC = () => {
@@ -62,6 +63,14 @@ class App extends Component<{}, AppState> {
         useMockData: state.useMockData,
       });
     });
+    useUsersService.stateObservable
+      .pipe(
+        filter((state: UseUsersState) => !state.loading),
+        take(1)
+      )
+      .subscribe((state: UseUsersState) => {
+        this.setState({ ...state });
+      });
     useUsersService.fetchUsers();
   }
   setFilters = (filters: AppState["filters"]) => {
