@@ -1,5 +1,6 @@
 # TransPerfect Assignment
 
+1.installation 
 ## Getting Started
 
 1. **Clone the repository:**
@@ -11,7 +12,7 @@ npm install
 npm start
 Open http://localhost:3000 in your browser to test the application.
 
-Description
+2.Description
 TransPerfect is a React (Class Components) user management and search application.
 The project demonstrates fetching, filtering, and displaying users from a public API, implementing basic table actions, and adding bonus features for enhanced usability.
 
