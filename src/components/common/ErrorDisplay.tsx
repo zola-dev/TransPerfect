@@ -1,17 +1,17 @@
-import {
-  //React,
-  Component,
-} from "react";
+import 
+React, 
+{ Component } 
+from 'react';
 import { ApiError } from "../../types";
 interface ErrorDisplayProps {
   error: ApiError;
   onRetry: () => void;
 }
-//export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ error, onRetry }) => (
-export class ErrorDisplay extends Component<ErrorDisplayProps> {
-  render() {
-    const { error, onRetry } = this.props;
-    return (
+export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ error, onRetry }) => (
+//export class ErrorDisplay extends Component<ErrorDisplayProps> {
+  //render() {
+    //const { error, onRetry } = this.props;
+    //return (
       <div className="flex justify-center items-center min-h-[400px]">
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md">
           <div className="flex items-start gap-3">
@@ -37,6 +37,6 @@ export class ErrorDisplay extends Component<ErrorDisplayProps> {
         </div>
       </div>
     );
-  }
-}
-//);
+//   }
+// }
+

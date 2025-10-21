@@ -1,5 +1,5 @@
 import 
-//React, 
+React, 
 { Component } from 'react';
 import { User } from '../../types';
 import { TableRow } from './TableRow';
@@ -10,10 +10,10 @@ interface DataTableProps {
   onDelete: (id: number) => void;
   onViewDetails: (user: User) => void;
 }
-//export const DataTable: React.FC<DataTableProps> = 
-//   ({ users, onEdit, onDelete }) => {
-export class DataTable extends Component<DataTableProps> { render() {//
-const { users, onEdit, onDelete, onViewDetails } = this.props;//
+export const DataTable: React.FC<DataTableProps> = 
+        ({ users, onEdit, onDelete, onViewDetails }) => {
+// export class DataTable extends Component<DataTableProps> { render() {//
+// const { users, onEdit, onDelete, onViewDetails } = this.props;//
   if (users.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow-md p-8 text-center">
@@ -52,6 +52,5 @@ const { users, onEdit, onDelete, onViewDetails } = this.props;//
       </div>
     </div>
   );
-  }//
-}//
-//};
+  }
+// }//

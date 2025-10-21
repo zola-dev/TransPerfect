@@ -15,13 +15,13 @@ interface TableRowProps {
   user: User;
   onEdit: (user: User) => void;
   onDelete: (id: number) => void;
-  onViewDetails: (user: User) => void; // ← NEW!
+  onViewDetails: (user: User) => void;
 }
-//export const TableRow: React.FC<TableRowProps> = ({
-//          user, onEdit, onDelete, onViewDetails }) => {
-export class TableRow extends Component<TableRowProps> { render() {//
-    const { user, onEdit, onDelete, onViewDetails } = this.props; //
-    return (
+export const TableRow: React.FC<TableRowProps> = ({
+           user, onEdit, onDelete, onViewDetails }) => {
+// export class TableRow extends Component<TableRowProps> { render() {//
+// const { user, onEdit, onDelete, onViewDetails } = this.props; //
+     return (
       <tr
         onClick={() => onViewDetails(user)}
         className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
@@ -57,6 +57,6 @@ export class TableRow extends Component<TableRowProps> { render() {//
         </td>
       </tr>
     );
-  } //
-} //
-//};
+   } 
+//}//
+

@@ -1,7 +1,6 @@
-import {
-  //React,
-  Component,
-} from "react";
+import 
+React, 
+{ Component } from 'react';
 import { FilterOptions } from "../../types";
 import clsx from "clsx";
 import { inputClass } from "../../constants/index";
@@ -14,12 +13,12 @@ interface FilterBarProps {
   filteredCount: number;
   onAddUser: () => void;
 }
-// export const FilterBar: React.FC<FilterBarProps> = ({
-//          filters,onFilterChange,totalCount,filteredCount, onAddUser
-// }) => {
-export class FilterBar extends Component<FilterBarProps> {//
-  render() {//
-    const { filters, onFilterChange, totalCount, filteredCount, onAddUser } = this.props; //
+export const FilterBar: React.FC<FilterBarProps> = ({
+           filters, onFilterChange, totalCount, filteredCount, onAddUser
+}) => {
+// export class FilterBar extends Component<FilterBarProps> {//
+// render() {//
+// const { filters, onFilterChange, totalCount, filteredCount, onAddUser } = this.props; //
     return (
       <div className={clsx("bg-white rounded-lg shadow-md p-6 mb-6")}>
         <div className="flex flex-col gap-4">
@@ -120,5 +119,5 @@ export class FilterBar extends Component<FilterBarProps> {//
       </div>
     );
   }
-}
-//};
+//}//
+

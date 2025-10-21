@@ -7,21 +7,25 @@ interface UserDetailsProps {
   isOpen: boolean;
   toggle: (user: User | DetailedUser | null) => void;
 }
-//export const UserDetails: React.FC<UserDetailsProps> = ({
-//        user, isOpen, toggle }) => {
-export class UserDetails extends Component<UserDetailsProps> {//
-  handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+export const UserDetails: React.FC<UserDetailsProps> = ({
+           user, isOpen, toggle }) => {
+// export class UserDetails extends Component<UserDetailsProps> {//
+  //handleOverlayClick = 
+  const handleOverlayClick = 
+  (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
-      this.props.toggle(null);
+      //this.props.toggle(null);
+      toggle(null);
     }
   };
-  render() {//
-    const { user, isOpen, toggle } = this.props;
+//render() {//
+//const { user, isOpen, toggle } = this.props;
     if (!isOpen || !user) return null;
     return (
       <div
         className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-        onClick={this.handleOverlayClick}
+        //onClick={this.handleOverlayClick}
+        onClick={handleOverlayClick}
         role="dialog"
         aria-modal="true"
       >
@@ -126,5 +130,5 @@ export class UserDetails extends Component<UserDetailsProps> {//
       </div>
     );
   }//
-}//
-//};
+// }//
+
