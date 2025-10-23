@@ -1,14 +1,14 @@
 import 
 React, 
 { Component } from 'react';
-import { User } from '../../types';
+import { User, DetailedUser} from '../../types';
 import { TableRow } from './TableRow';
 import { tableHeaderCell } from "../../constants/index";
 interface DataTableProps {
-  users: User[];
-  onEdit: (user: User) => void;
+  users: DetailedUser[];
+  onEdit: (user:  DetailedUser) => void;
   onDelete: (id: number) => void;
-  onViewDetails: (user: User) => void;
+  onViewDetails: (user: DetailedUser) => void;
 }
 export const DataTable: React.FC<DataTableProps> = 
         ({ users, onEdit, onDelete, onViewDetails }) => {

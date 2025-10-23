@@ -2,7 +2,7 @@ import {
   //React,
   Component,
 } from "react";
-import { User } from "../../types";
+import { DetailedUser } from "../../types";
 import clsx from "clsx";
 import {
   cellBaseClass,
@@ -12,10 +12,10 @@ import {
   deleteButtonClass,
 } from "../../constants/index";
 interface TableRowProps {
-  user: User;
-  onEdit: (user: User) => void;
+  user: DetailedUser;
+  onEdit: (user: DetailedUser) => void;
   onDelete: (id: number) => void;
-  onViewDetails: (user: User) => void;
+  onViewDetails: (user: DetailedUser) => void;
 }
 export const TableRow: React.FC<TableRowProps> = ({
            user, onEdit, onDelete, onViewDetails }) => {

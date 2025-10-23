@@ -1,8 +1,9 @@
 import { User, FilterOptions, DetailedUser } from "../types";
 export const filterAndSortUsers = (
-  users: DetailedUser[] | User[],
+  users: DetailedUser[],
+  // | User[],
   filters: FilterOptions
-): DetailedUser[] | User[] => {
+): DetailedUser[] => {
   let result = [...users];
   if (filters.searchTerm.trim()) {
     const term = filters.caseSensitive
