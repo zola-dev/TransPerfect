@@ -6,4 +6,3 @@ export * from './user/AddUser';
 export * from './user/DataTable';
 export * from './user/FilterBar';
 export * from './user/TableRow';
-export * from './user/UserDetails';

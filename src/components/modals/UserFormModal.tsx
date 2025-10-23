@@ -5,7 +5,6 @@ import { UserForm } from "../forms/UserForm";
 import { User, DetailedUser } from "../../types/user.types";
 
 interface UserFormModalProps {
-  isOpen: boolean;
   toggle: () => void;
   user: DetailedUser | null;
   mode: "view" | "edit" | "add";
@@ -13,7 +12,6 @@ interface UserFormModalProps {
 }
 
 const UserFormModal: React.FC<UserFormModalProps> = ({
-  isOpen,
   toggle,
   user,
   mode,
