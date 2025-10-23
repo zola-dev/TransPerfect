@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { DetailedUser } from "../../types";
-import { inputClass, editButtonClass, readOnly as readOnlyCss, sectionTitle, label as labelCss  } from "../../constants";
-import clsx from "clsx";
+import {
+  inputClass,
+  readOnly as readOnlyCss,
+  sectionTitle,
+  label as labelCss,
+} from "../../constants";
 
 interface UserFormProps {
   user: DetailedUser | null;
@@ -61,7 +65,9 @@ export const UserForm: React.FC<UserFormProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className={`space-y-4 max-h-none overflow-visible ${readOnly ? readOnlyCss : ""}`}
+      className={`space-y-4 max-h-none overflow-visible ${
+        readOnly ? readOnlyCss : ""
+      }`}
     >
       {/* --- BASIC INFO --- */}
       <section>
@@ -78,9 +84,15 @@ export const UserForm: React.FC<UserFormProps> = ({
               <span className={labelCss}>{label}</span>
               <input
                 type="text"
-                value={path.split(".").reduce((o: any, k) => (o ? o[k] : ""), formData) || ""}
+                value={
+                  path
+                    .split(".")
+                    .reduce((o: any, k) => (o ? o[k] : ""), formData) || ""
+                }
                 onChange={(e) => handleChange(path, e.target.value)}
-                className={`${inputClass} ${readOnly ? "bg-gray-100 cursor-default" : ""}`}
+                className={`${inputClass} ${
+                  readOnly ? "bg-gray-100 cursor-default" : ""
+                }`}
                 readOnly={readOnly}
               />
             </label>
@@ -104,9 +116,15 @@ export const UserForm: React.FC<UserFormProps> = ({
               <span className={labelCss}>{label}</span>
               <input
                 type="text"
-                value={path.split(".").reduce((o: any, k) => (o ? o[k] : ""), formData) || ""}
+                value={
+                  path
+                    .split(".")
+                    .reduce((o: any, k) => (o ? o[k] : ""), formData) || ""
+                }
                 onChange={(e) => handleChange(path, e.target.value)}
-                className={`${inputClass} ${readOnly ? "bg-gray-100 cursor-default" : ""}`}
+                className={`${inputClass} ${
+                  readOnly ? "bg-gray-100 cursor-default" : ""
+                }`}
                 readOnly={readOnly}
               />
             </label>
@@ -127,9 +145,15 @@ export const UserForm: React.FC<UserFormProps> = ({
               <span className={labelCss}>{label}</span>
               <input
                 type="text"
-                value={path.split(".").reduce((o: any, k) => (o ? o[k] : ""), formData) || ""}
+                value={
+                  path
+                    .split(".")
+                    .reduce((o: any, k) => (o ? o[k] : ""), formData) || ""
+                }
                 onChange={(e) => handleChange(path, e.target.value)}
-                className={`${inputClass} ${readOnly ? "bg-gray-100 cursor-default" : ""}`}
+                className={`${inputClass} ${
+                  readOnly ? "bg-gray-100 cursor-default" : ""
+                }`}
                 readOnly={readOnly}
               />
             </label>
@@ -158,4 +182,3 @@ export const UserForm: React.FC<UserFormProps> = ({
     </form>
   );
 };
-

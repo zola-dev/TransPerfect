@@ -1,143 +1,220 @@
-import 
-React, 
-{ Component, 
-useState, useMemo, useEffect
-} from 'react';
-import { FilterOptions, User, DetailedUser, ApiError } from './types';
-import { useUsers } from './hooks';
-import { filterAndSortUsers } from './utils';
-import { LoadingSpinner, FilterBar, DataTable, AddUserButton, UserDetails } from './components';
+import React, {
+  Component,
+  useState,
+  useMemo,
+  useEffect,
+  Suspense,
+  lazy,
+} from "react";
+import {
+  FilterOptions,
+  User,
+  DetailedUser,
+  ApiError,
+} from "./types";
+import { useUsers } from "./hooks";
+import { filterAndSortUsers } from "./utils";
+import {
+  LoadingSpinner,
+  FilterBar,
+  DataTable,
+  AddUserButton,
+  UserDetails,
+} from "./components";
 //import { userService } from './services';//for real API
 //import { filter, take } from "rxjs/operators";
-import './App.css';
+import "./App.css";
 
 const App: React.FC = () => {
-  const { users: fetchedUsers, loading, error, useMockData, setUseMockData } = useUsers();
-  const [users, setUsers] = useState<User[]>([]);
+  const {
+    users: fetchedUsers,
+    loading,
+    error,
+    useMockData,
+    setUseMockData,
+  } = useUsers();
+  const [users, setUsers] = useState<DetailedUser[]>([]);
   useEffect(() => {
-    setUsers(fetchedUsers);
+    setUsers(fetchedUsers as DetailedUser[]);
   }, [fetchedUsers]);
   const [filters, setFilters] = useState<FilterOptions>({
-    searchTerm: '',
-    sortBy: 'name',
-    caseSensitive: false, 
+    searchTerm: "",
+    sortBy: "name",
+    caseSensitive: false,
     wildcard: false,
   });
-  const [selectedUser, setSelectedUser] = useState<User | DetailedUser | null>(null);
+  const [selectedUser, setSelectedUser] = useState<DetailedUser | null>(null);
+  const UserFormModal = lazy(() => import("./components/modals/UserFormModal"));
   const filteredUsers = useMemo(
     () => filterAndSortUsers(users, filters),
     [users, filters]
-  ); 
+  );
+  const [mode, setMode] = useState<"view" | "edit" | "add">("view");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleAddUser = () => {
+    setSelectedUser(null);
+    setMode("add");
+    setIsModalOpen(true);
+  };
 
-// import { useUsersService, UseUsersState } from './services/useUsers.service';
-// interface AppState {//class based approach
-//   users: User[];
-//   fetchedUsers: User[];
-//   loading: boolean;
-//   error: ApiError | null;
-//   useMockData: boolean;
-//   filters: FilterOptions;
-//   selectedUser: User | DetailedUser | null;
-// }
-// class App extends Component<{}, AppState> {
-//   state: AppState = {
-//     users: [],
-//     fetchedUsers: [],
-//     loading: true,
-//     error: null,
-//     useMockData: false,
-//     filters: {
-//       searchTerm: '',
-//       sortBy: 'name',
-//       caseSensitive: false,
-//       wildcard: false,
-//     },
-//     selectedUser: null,
-//   };
-//   componentDidMount() {
-//     useUsersService.stateObservable.subscribe((state: UseUsersState) => {
-//       this.setState({
-//         users: state.users,
-//         loading: state.loading,
-//         error: state.error,
-//         useMockData: state.useMockData,
-//       });
-//     });
-//     useUsersService.stateObservable
-//       .pipe(
-//         filter((state: UseUsersState) => !state.loading),
-//         take(1)
-//       )
-//       .subscribe((state: UseUsersState) => {
-//         this.setState({ ...state });
-//       });
-//     useUsersService.fetchUsers();
-//   }
-//   setFilters = (filters: AppState["filters"]) => {
-//     this.setState({ filters });
-//   };
+  const handleEditUser = (user: DetailedUser) => {
+    setSelectedUser(user);
+    setMode("edit");
+    setIsModalOpen(true);
+  };
+
+  const handleViewUser = (user: DetailedUser) => {
+    setSelectedUser(user);
+    setMode("view");
+    setIsModalOpen(true);
+  };
+  const handleSave = (userData: DetailedUser) => {
+    if (selectedUser) {
+      setUsers((prev) =>
+        prev.map((u) => (u.id === userData.id ? userData : u))
+      );
+    } else {
+      const id =
+      users.length > 0
+        ? //const id = this.state.users.length > 0 //
+          Math.max(...users.map((u) => u.id)) + 1
+        : //? Math.max(...this.state.users.map(u => u.id)) + 1
+          1;
+      setUsers((prev) => [...prev, { ...userData, id: id }]);
+    }
+    setIsModalOpen(false);
+  };
+
+  // import { useUsersService, UseUsersState } from './services/useUsers.service';
+  // interface AppState {//class based approach
+  //   users: User[];
+  //   fetchedUsers: User[];
+  //   loading: boolean;
+  //   error: ApiError | null;
+  //   useMockData: boolean;
+  //   filters: FilterOptions;
+  //   selectedUser: User | DetailedUser | null;
+  // }
+  // class App extends Component<{}, AppState> {
+  //   state: AppState = {
+  //     users: [],
+  //     fetchedUsers: [],
+  //     loading: true,
+  //     error: null,
+  //     useMockData: false,
+  //     filters: {
+  //       searchTerm: '',
+  //       sortBy: 'name',
+  //       caseSensitive: false,
+  //       wildcard: false,
+  //     },
+  //     selectedUser: null,
+  //   };
+  //   componentDidMount() {
+  //     useUsersService.stateObservable.subscribe((state: UseUsersState) => {
+  //       this.setState({
+  //         users: state.users,
+  //         loading: state.loading,
+  //         error: state.error,
+  //         useMockData: state.useMockData,
+  //       });
+  //     });
+  //     useUsersService.stateObservable
+  //       .pipe(
+  //         filter((state: UseUsersState) => !state.loading),
+  //         take(1)
+  //       )
+  //       .subscribe((state: UseUsersState) => {
+  //         this.setState({ ...state });
+  //       });
+  //     useUsersService.fetchUsers();
+  //   }
+  //   setFilters = (filters: AppState["filters"]) => {
+  //     this.setState({ filters });
+  //   };
 
   // addUser = async () => {
-  const addUser = async () => {
-  const name = prompt('Name:');
-  if (!name) return;
-  const email = prompt('Email:');
-  if (!email) return;
-  const phone = prompt('Phone:');
-  if (!phone) return;
-  const company = prompt('Company name:');
-  if (!company) return;
-  const id = users.length > 0 
-  //const id = this.state.users.length > 0 //
-   ? Math.max(...users.map(u => u.id)) + 1 
-  //? Math.max(...this.state.users.map(u => u.id)) + 1 
-  : 1;
-  const user: User = { id, name, email, phone, company:{name:company} };
-  setUsers(prevUsers => [...prevUsers, user]);
-  //this.setState(prevState => ({ users: [...prevState.users, user] }));//
-  // await userService.addUser(user);//for real API
-  alert('User added successfully!');
-  };
+  // const addUser = async () => {
+  //   const name = prompt("Name:");
+  //   if (!name) return;
+  //   const email = prompt("Email:");
+  //   if (!email) return;
+  //   const phone = prompt("Phone:");
+  //   if (!phone) return;
+  //   const company = prompt("Company name:");
+  //   if (!company) return;
+  //   const id =
+  //     users.length > 0
+  //       ? //const id = this.state.users.length > 0 //
+  //         Math.max(...users.map((u) => u.id)) + 1
+  //       : //? Math.max(...this.state.users.map(u => u.id)) + 1
+  //         1;
+  //   // Compose a DetailedUser to satisfy the types expected by setUsers
+  //   const user: DetailedUser = {
+  //     id,
+  //     name,
+  //     email,
+  //     phone,
+  //     username: "",
+  //     address: {
+  //       street: "",
+  //       suite: "",
+  //       city: "",
+  //       zipcode: "",
+  //       geo: { lat: "", lng: "" }
+  //     },
+  //     company: {
+  //       name: company,
+  //       catchPhrase: "",
+  //       bs: ""
+  //     },
+  //     website: ""
+  //   };
+  //   setUsers((prevUsers) => [...prevUsers, user]);
+  //   //this.setState(prevState => ({ users: [...prevState.users, user] }));//
+  //   // await userService.addUser(user);//for real API
+  //   alert("User added successfully!");
+  // };
 
-  //handleEdit = async (user: User) => {
-  const handleEdit = async (user: User) => {
-  const newName = prompt('New name:', user.name);
-  if (!newName) return;
-  const updatedUser = { ...user, name: newName };//
-  setUsers(prevUsers =>
-    prevUsers.map(u => u.id === user.id ? updatedUser : u)
-  );
-  //this.setState(prevState => ({ users: prevState.users.map(u => u.id === user.id ? updatedUser : u) }));//
-  //await userService.updateUser(user.id, updatedUser);//for real API
-  };
+  // //handleEdit = async (user: User) => {
+  // const handleEdit = async (user: User) => {
+  // const newName = prompt('New name:', user.name);
+  // if (!newName) return;
+  // const updatedUser = { ...user, name: newName };//
+  // setUsers(prevUsers =>
+  //   prevUsers.map(u => u.id === user.id ? updatedUser : u)
+  // );
+  // //this.setState(prevState => ({ users: prevState.users.map(u => u.id === user.id ? updatedUser : u) }));//
+  // //await userService.updateUser(user.id, updatedUser);//for real API
+  // };
 
   //handleDelete = async (id: number) => {
   const handleDelete = async (id: number) => {
-    if (!window.confirm('Are you sure you want to delete this user?')) {
+    if (!window.confirm("Are you sure you want to delete this user?")) {
       return;
     }
 
     try {
-      setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
+      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
       //this.setState(prevState => ({ users: prevState.users.filter(u => u.id !== id) }));//
       //await userService.deleteUser(id);//for real API
-      alert('User deleted successfully!');
+      alert("User deleted successfully!");
     } catch (error) {
-      alert('Failed to delete user. Please try again.');
-      console.error('Delete error:', error);
+      alert("Failed to delete user. Please try again.");
+      console.error("Delete error:", error);
     }
   };
-  
-  //toggleUserDetails = (user: User | DetailedUser | null) => 
-  const toggleUserDetails = (user: User | DetailedUser | null) => 
+
+  //toggleUserDetails = (user: User | DetailedUser | null) =>
+  const toggleUserDetails = (user: DetailedUser | null) =>
     setSelectedUser(user);
-    //this.setState({ selectedUser: user });//
+  //this.setState({ selectedUser: user });//
 
-    // render() {//
-    //   const { users, loading, error, useMockData, filters, selectedUser } = this.state;//
-    //   const filteredUsers = filterAndSortUsers(users, filters);//
+  // render() {//
+  //   const { users, loading, error, useMockData, filters, selectedUser } = this.state;//
+  //   const filteredUsers = filterAndSortUsers(users, filters);//
 
-  if (  loading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gray-100">
         <LoadingSpinner />
@@ -161,10 +238,12 @@ const App: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-blue-900">
-                Data Source: {useMockData ? 'Mock Data' : 'Live API'}
+                Data Source: {useMockData ? "Mock Data" : "Live API"}
               </span>
               {error && !useMockData && (
-                <span className="text-xs text-red-600">(API failed, using mock data)</span>
+                <span className="text-xs text-red-600">
+                  (API failed, using mock data)
+                </span>
               )}
             </div>
             <button
@@ -172,7 +251,7 @@ const App: React.FC = () => {
               //onClick={() => useUsersService.setUseMockData(!useMockData)}//
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
             >
-              Switch to {useMockData ? 'Live API' : 'Mock Data'}
+              Switch to {useMockData ? "Live API" : "Mock Data"}
             </button>
           </div>
         </div>
@@ -183,27 +262,48 @@ const App: React.FC = () => {
           //onFilterChange={this.setFilters}//
           totalCount={users.length}
           filteredCount={filteredUsers.length}
-          //onAddUser={this.addUser} 
-          onAddUser={addUser} 
+          //onAddUser={this.addUser}
+          //onAddUser={addUser}
+          onAddUser={handleAddUser}
         />
         <DataTable
           users={filteredUsers}
-          onEdit={handleEdit}
+
+          //onEdit={handleEdit}
           //onEdit={this.handleEdit}//
+          onEdit={handleEditUser}
+
           onDelete={handleDelete}
           //onDelete={this.handleDelete}//
-          onViewDetails={(user: User) => setSelectedUser(user)}
-          //onViewDetails={(user: User) => this.setState({ selectedUser: user })}//
+
+          //onViewDetails={(user: User) => setSelectedUser(user)}
+          //onViewDetails={(user: User) => this.setState({ selectedUser: user })}//class
+          onViewDetails={(user) => handleViewUser(user)}
+
         />
-        <UserDetails
+        {/* <UserDetails
           user={selectedUser}
           isOpen={!!selectedUser}
           toggle={toggleUserDetails}
           //toggle={this.toggleUserDetails}//
-        />
+        /> */}
+
+        {isModalOpen && (
+          <Suspense
+            fallback={<div className="text-center p-6">Loading...</div>}
+          >
+            <UserFormModal
+              isOpen={isModalOpen}
+              toggle={() => setIsModalOpen(false)}
+              user={selectedUser}
+              mode={mode}
+              onSave={handleSave}
+            />
+          </Suspense>
+        )}
       </div>
     </div>
   );
-}//
+}; //
 // }//
 export default App;
