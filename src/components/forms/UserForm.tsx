@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { DetailedUser } from "../../types";
-import { inputClass, editButtonClass } from "../../constants";
+import { inputClass, editButtonClass, readOnly as readOnlyCss, sectionTitle, label as labelCss  } from "../../constants";
+import clsx from "clsx";
 
 interface UserFormProps {
   user: DetailedUser | null;
@@ -54,152 +55,107 @@ export const UserForm: React.FC<UserFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    if (!readOnly) onSave(formData);
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 max-h-[70vh] overflow-y-auto"
+      className={`space-y-4 max-h-none overflow-visible ${readOnly ? readOnlyCss : ""}`}
     >
-      {/* Basic Info */}
-      <input
-        type="text"
-        placeholder="Full Name"
-        value={formData.name}
-        onChange={(e) => handleChange("name", e.target.value)}
-        className={inputClass}
-        readOnly={readOnly}
-      />
-      <input
-        type="text"
-        placeholder="Username"
-        value={formData.username}
-        onChange={(e) => handleChange("username", e.target.value)}
-        className={inputClass}
-        readOnly={readOnly}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={(e) => handleChange("email", e.target.value)}
-        className={inputClass}
-        readOnly={readOnly}
-      />
+      {/* --- BASIC INFO --- */}
+      <section>
+        <h3 className={sectionTitle}>Basic Information</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            ["Name", "name"],
+            ["Username", "username"],
+            ["Email", "email"],
+            ["Phone", "phone"],
+            ["Website", "website"],
+          ].map(([label, path]) => (
+            <label key={path} className="block">
+              <span className={labelCss}>{label}</span>
+              <input
+                type="text"
+                value={path.split(".").reduce((o: any, k) => (o ? o[k] : ""), formData) || ""}
+                onChange={(e) => handleChange(path, e.target.value)}
+                className={`${inputClass} ${readOnly ? "bg-gray-100 cursor-default" : ""}`}
+                readOnly={readOnly}
+              />
+            </label>
+          ))}
+        </div>
+      </section>
 
-      {/* Address */}
-      <div className="grid grid-cols-2 gap-2">
-        <input
-          type="text"
-          placeholder="Street"
-          value={formData.address.street}
-          onChange={(e) => handleChange("address.street", e.target.value)}
-          className={inputClass}
-          readOnly={readOnly}
-        />
-        <input
-          type="text"
-          placeholder="Suite"
-          value={formData.address.suite}
-          onChange={(e) => handleChange("address.suite", e.target.value)}
-          className={inputClass}
-          readOnly={readOnly}
-        />
-        <input
-          type="text"
-          placeholder="City"
-          value={formData.address.city}
-          onChange={(e) => handleChange("address.city", e.target.value)}
-          className={inputClass}
-          readOnly={readOnly}
-        />
-        <input
-          type="text"
-          placeholder="Zipcode"
-          value={formData.address.zipcode}
-          onChange={(e) => handleChange("address.zipcode", e.target.value)}
-          className={inputClass}
-          readOnly={readOnly}
-        />
-        <input
-          type="text"
-          placeholder="Latitude"
-          value={formData.address.geo.lat}
-          onChange={(e) => handleChange("address.geo.lat", e.target.value)}
-          className={inputClass}
-          readOnly={readOnly}
-        />
-        <input
-          type="text"
-          placeholder="Longitude"
-          value={formData.address.geo.lng}
-          onChange={(e) => handleChange("address.geo.lng", e.target.value)}
-          className={inputClass}
-          readOnly={readOnly}
-        />
-      </div>
+      {/* --- ADDRESS --- */}
+      <section>
+        <h3 className={sectionTitle}>Address</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            ["Street", "address.street"],
+            ["Suite", "address.suite"],
+            ["City", "address.city"],
+            ["Zipcode", "address.zipcode"],
+            ["Latitude", "address.geo.lat"],
+            ["Longitude", "address.geo.lng"],
+          ].map(([label, path]) => (
+            <label key={path} className="block">
+              <span className={labelCss}>{label}</span>
+              <input
+                type="text"
+                value={path.split(".").reduce((o: any, k) => (o ? o[k] : ""), formData) || ""}
+                onChange={(e) => handleChange(path, e.target.value)}
+                className={`${inputClass} ${readOnly ? "bg-gray-100 cursor-default" : ""}`}
+                readOnly={readOnly}
+              />
+            </label>
+          ))}
+        </div>
+      </section>
 
-      {/* Company */}
-      <input
-        type="text"
-        placeholder="Company Name"
-        value={formData.company.name}
-        onChange={(e) => handleChange("company.name", e.target.value)}
-        className={inputClass}
-        readOnly={readOnly}
-      />
-      <input
-        type="text"
-        placeholder="Catch Phrase"
-        value={formData.company.catchPhrase}
-        onChange={(e) => handleChange("company.catchPhrase", e.target.value)}
-        className={inputClass}
-        readOnly={readOnly}
-      />
-      <input
-        type="text"
-        placeholder="Business (bs)"
-        value={formData.company.bs}
-        onChange={(e) => handleChange("company.bs", e.target.value)}
-        className={inputClass}
-        readOnly={readOnly}
-      />
+      {/* --- COMPANY --- */}
+      <section>
+        <h3 className={sectionTitle}>Company</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            ["Name", "company.name"],
+            ["Catch Phrase", "company.catchPhrase"],
+            ["Business", "company.bs"],
+          ].map(([label, path]) => (
+            <label key={path} className="block">
+              <span className={labelCss}>{label}</span>
+              <input
+                type="text"
+                value={path.split(".").reduce((o: any, k) => (o ? o[k] : ""), formData) || ""}
+                onChange={(e) => handleChange(path, e.target.value)}
+                className={`${inputClass} ${readOnly ? "bg-gray-100 cursor-default" : ""}`}
+                readOnly={readOnly}
+              />
+            </label>
+          ))}
+        </div>
+      </section>
 
-      {/* Other */}
-      <input
-        type="tel"
-        placeholder="Phone"
-        value={formData.phone}
-        onChange={(e) => handleChange("phone", e.target.value)}
-        className={inputClass}
-        readOnly={readOnly}
-      />
-      <input
-        type="url"
-        placeholder="Website"
-        value={formData.website}
-        onChange={(e) => handleChange("website", e.target.value)}
-        className={inputClass}
-        readOnly={readOnly}
-      />
-      {/* Button*/}
-      <div className="flex justify-end gap-3 mt-4">
-        {!readOnly && (
+      {/* --- ACTION BUTTONS --- */}
+      {!readOnly && (
+        <div className="flex justify-end gap-3 pt-4 border-t">
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100"
           >
             Cancel
           </button>
-        )}
-        {!readOnly && (
-          <button type="submit" className={editButtonClass}>
+          <button
+            type="submit"
+            className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+          >
             Save
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </form>
   );
 };
+
