@@ -34,3 +34,7 @@ import clsx from "clsx";
     export const sectionTitle = "text-lg font-semibold text-gray-800 mb-3 border-b pb-2";
     export const label = "text-sm font-medium text-gray-500";
   //}
+ //Modals
+  //UserForm
+    export const readOnly = "pointer-events-none opacity-90 select-none"; 
+    
