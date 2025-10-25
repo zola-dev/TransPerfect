@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, lazy } from "react";
-import { User, DetailedUser, ApiError, FilterOptions, filterAndSortUsers, useUsersService, UseUsersState  } from "../index";
+import { User, DetailedUser, ApiError, FilterOptions, filterAndSortUsers, useUsersService, UseUsersState } from "../index";
 import { filter, take } from "rxjs/operators";
 export type UserMode = "view" | "edit" | "add";
 interface UseUsersResult {
