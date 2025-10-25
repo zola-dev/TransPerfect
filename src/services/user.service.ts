@@ -1,6 +1,4 @@
-import { httpClient } from './http-client.service';
-import { User } from '../types';
-
+import { httpClient, User } from '../index';
 class UserService {
   private endpoint = '/users';
 

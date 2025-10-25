@@ -1,19 +1,13 @@
 import React from "react";
-import { DetailedUser } from "../../types";
-import clsx from "clsx";
 import {
+  TableRowProps,
+  cl,
   cellBaseClass,
   textGray900,
   textGray600,
   editButtonClass,
   deleteButtonClass,
-} from "../../constants/index";
-interface TableRowProps {
-  user: DetailedUser;
-  onEdit: (user: DetailedUser) => void;
-  onDelete: (id: number) => void;
-  onViewDetails: (user: DetailedUser) => void;
-}
+} from "../../index";
 export const TableRow: React.FC<TableRowProps> = ({
   user,
   onEdit,
@@ -25,12 +19,12 @@ export const TableRow: React.FC<TableRowProps> = ({
       onClick={() => onViewDetails(user)}
       className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
     >
-      <td className={clsx(cellBaseClass, textGray900)}>{user.id}</td>
-      <td className={clsx(cellBaseClass, textGray900)}>{user.name}</td>
-      <td className={clsx(cellBaseClass, textGray600)}>{user.email}</td>
-      <td className={clsx(cellBaseClass, textGray600)}>{user.phone}</td>
-      <td className={clsx(cellBaseClass, textGray600)}>{user.company.name}</td>
-      <td className={clsx(cellBaseClass)}>
+      <td className={cl(cellBaseClass, textGray900)}>{user.id}</td>
+      <td className={cl(cellBaseClass, textGray900)}>{user.name}</td>
+      <td className={cl(cellBaseClass, textGray600)}>{user.email}</td>
+      <td className={cl(cellBaseClass, textGray600)}>{user.phone}</td>
+      <td className={cl(cellBaseClass, textGray600)}>{user.company.name}</td>
+      <td className={cl(cellBaseClass)}>
         <div className="flex gap-2">
           <button
             onClick={(e) => {

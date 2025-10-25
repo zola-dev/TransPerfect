@@ -1,19 +1,12 @@
 import React, { useState } from "react";
-import { DetailedUser } from "../../types";
 import {
+  DetailedUser,
+  UserFormProps,
   inputClass,
   readOnly as readOnlyCss,
   sectionTitle,
   label as labelCss,
-} from "../../constants";
-
-interface UserFormProps {
-  user: DetailedUser | null;
-  onSave: (userData: DetailedUser) => void;
-  onCancel: () => void;
-  readOnly: boolean;
-}
-
+} from "../../index";
 export const UserForm: React.FC<UserFormProps> = ({
   user,
   onSave,

@@ -1,16 +1,6 @@
 import React from "react";
-import { FilterOptions } from "../../types";
-import clsx from "clsx";
-import { inputClass } from "../../constants/index";
+import { FilterOptions, FilterBarProps, inputClass, AddUserButton, cl } from "../../index";
 import { Type, Asterisk } from "lucide-react";
-import { AddUserButton } from "./AddUser";
-interface FilterBarProps {
-  filters: FilterOptions;
-  onFilterChange: (filters: FilterOptions) => void;
-  totalCount: number;
-  filteredCount: number;
-  onAddUser: () => void;
-}
 export const FilterBar: React.FC<FilterBarProps> = ({
   filters,
   onFilterChange,
@@ -19,7 +9,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onAddUser,
 }) => {
   return (
-    <div className={clsx("bg-white rounded-lg shadow-md p-6 mb-6")}>
+    <div className={cl("bg-white rounded-lg shadow-md p-6 mb-6")}>
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-800">

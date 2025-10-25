@@ -1,7 +1,6 @@
-import { User, FilterOptions, DetailedUser } from "../types";
+import { FilterOptions, DetailedUser } from "../types";
 export const filterAndSortUsers = (
   users: DetailedUser[],
-  // | User[],
   filters: FilterOptions
 ): DetailedUser[] => {
   let result = [...users];

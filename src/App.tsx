@@ -1,8 +1,5 @@
-import React, { useState, useMemo, useEffect, Suspense, lazy } from "react";
-import { FilterOptions, DetailedUser } from "./types";
-import { useUsers } from "./hooks";
-import { filterAndSortUsers } from "./utils";
-import { LoadingSpinner, FilterBar, DataTable } from "./components";
+import React, { Suspense } from "react";
+import { DetailedUser, useUsers, LoadingSpinner, FilterBar, DataTable } from "./index";
 import "./App.css";
 
 const App: React.FC = () => {

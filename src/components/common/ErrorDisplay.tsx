@@ -1,9 +1,5 @@
 import React from "react";
-import { ApiError } from "../../types";
-interface ErrorDisplayProps {
-  error: ApiError;
-  onRetry: () => void;
-}
+import { ErrorDisplayProps } from "../../types";
 export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
   error,
   onRetry,

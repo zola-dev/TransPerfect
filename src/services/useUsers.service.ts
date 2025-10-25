@@ -1,16 +1,6 @@
 import { BehaviorSubject, timer, from, Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { userService } from "./user.service";
-import { MOCK_USERS } from "../data";
-import { User, ApiError } from "../types";
-
-export interface UseUsersState {
-  users: User[];
-  loading: boolean;
-  error: ApiError | null;
-  useMockData: boolean;
-}
-
+import { userService, User, ApiError, MOCK_USERS, UseUsersState } from "../index";
 const initialState: UseUsersState = {
   users: [],
   loading: false,

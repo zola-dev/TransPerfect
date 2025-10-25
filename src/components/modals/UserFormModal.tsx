@@ -1,14 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
-import { UserForm } from "../forms/UserForm";
-import { DetailedUser } from "../../types/user.types";
-interface UserFormModalProps {
-  toggle: () => void;
-  user: DetailedUser | null;
-  mode: "view" | "edit" | "add";
-  onSave: (userData: DetailedUser) => void;
-}
+import { UserForm, UserFormModalProps } from "../../index";
 const UserFormModal: React.FC<UserFormModalProps> = ({
   toggle,
   user,
