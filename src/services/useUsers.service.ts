@@ -1,5 +1,5 @@
 import { BehaviorSubject, timer, from, Observable } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 import { userService, User, ApiError, MOCK_USERS, UseUsersState } from "../index";
 const initialState: UseUsersState = {
   users: [],
@@ -9,44 +9,60 @@ const initialState: UseUsersState = {
 };
 
 class UseUsersService {
-  private state$ = new BehaviorSubject<UseUsersState>(initialState);
-  public readonly stateObservable: Observable<UseUsersState> =
-    this.state$.asObservable();
+  // private state$ = new BehaviorSubject<UseUsersState>(initialState);
+  // public readonly stateObservable: Observable<UseUsersState> =
+  //   this.state$.asObservable();
 
-  private setState(partial: Partial<UseUsersState>) {
-    this.state$.next({ ...this.state$.getValue(), ...partial });
-  }
+  // private setState(partial: Partial<UseUsersState>) {
+  //   this.state$.next({ ...this.state$.getValue(), ...partial });
+  // }
 
-  fetchUsers() {
-    this.setState({ loading: true, error: null });
-
-    if (this.state$.getValue().useMockData) {
-      timer(500).subscribe(() => {
-        this.setState({ users: MOCK_USERS, loading: false });
-      });
-      return;
+  fetchUsers(useMockData: boolean) {
+    //this.setState({ loading: true, error: null });
+    //if (this.state$.getValue().useMockData) {
+      if (useMockData) {
+      // timer(500).subscribe(() => {
+      //   this.setState({ users: MOCK_USERS, loading: false });
+      // });
+      console.log("useMockData should be true... ", useMockData)
+      return timer(500).pipe(
+        map(() => ({
+          users: MOCK_USERS,
+          loading: false,
+          error: null,
+          useMockData: true,
+        })))
     }
-    from(userService.getUsers())
+    console.log("useMockData should be false... ", useMockData)
+    return from(userService.getUsers())
       .pipe(
+        map((users: User[]) => ({
+          users,
+          loading: false,
+          error: null,
+          useMockData: false,
+        })),
         catchError((err) => {
-          this.setState({
-            users: MOCK_USERS,
-            error: err as ApiError,
-            useMockData: true,
-          });
-          return [];
+          // this.setState({
+          //   users: MOCK_USERS,
+          //   error: err as ApiError,
+          //   useMockData: true,
+          // });
+          return from([
+            {
+              users: MOCK_USERS,
+              loading: false,
+              error: err as ApiError,
+              useMockData: true,
+            },
+          ]);
         })
       )
-      .subscribe((users: User[] | []) => {
-        if (users.length) this.setState({ users, error: null });
-        this.setState({ loading: false });
-      });
   }
-
-  setUseMockData(value: boolean) {
-    this.setState({ useMockData: value });
-    this.fetchUsers();
-  }
+  // setUseMockData(value: boolean) {
+  //   this.setState({ useMockData: value });
+  //   this.fetchUsers();
+  // }
 }
 
 export const useUsersService = new UseUsersService();

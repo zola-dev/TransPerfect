@@ -9,7 +9,6 @@ interface UseUsersResult {
   refetch: () => void;
   useMockData: boolean;
   setUseMockData: (value: boolean) => void;
-  // Modal
   selectedUser: User | null;
   isModalOpen: boolean;
   mode: UserMode;
@@ -29,7 +28,6 @@ export const useUsers = (): UseUsersResult => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<ApiError | null>(null);
   const [useMockData, setUseMockData] = useState<boolean>(false);
-  //New state for modal
   const [selectedUser, setSelectedUser] = useState<DetailedUser | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mode, setMode] = useState<UserMode>("view");
@@ -40,7 +38,8 @@ export const useUsers = (): UseUsersResult => {
     wildcard: false,
   });
   useEffect(() => {
-    useUsersService.stateObservable
+    setLoading(true);
+    useUsersService.fetchUsers(useMockData)
       .pipe(
         filter((state) => !state.loading),
         take(1)
@@ -51,14 +50,13 @@ export const useUsers = (): UseUsersResult => {
         setError(state.error);
         setUseMockData(state.useMockData);
       });
-    useUsersService.fetchUsers();
-  }, []);
+    useUsersService.fetchUsers(useMockData);
+  }, [useMockData]);
   const handleAddUser = () => {
     setSelectedUser(null);
     setMode("add");
     setIsModalOpen(true);
   };
-
   const handleEditUser = (user: DetailedUser) => {
     setSelectedUser(user);
     setMode("edit");
@@ -94,17 +92,15 @@ export const useUsers = (): UseUsersResult => {
     () => filterAndSortUsers(users as DetailedUser[], filters),
     [users, filters]
   );
-
   const closeModal = () => setIsModalOpen(false);
   const UserFormModal = lazy(() => import("../components/modals/UserFormModal"));
   return {
     users,
     loading,
     error,
-    refetch: () => useUsersService.fetchUsers(),
+    refetch: () => useUsersService.fetchUsers(useMockData),
     useMockData,
-    setUseMockData: (value: boolean) => useUsersService.setUseMockData(value),
-    //new modal logic
+    setUseMockData: (value: boolean) => setUseMockData(value),
     selectedUser,
     isModalOpen,
     mode,
