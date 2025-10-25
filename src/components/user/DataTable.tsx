@@ -1,19 +1,19 @@
-import 
-React, 
-{ Component } from 'react';
-import { User, DetailedUser} from '../../types';
-import { TableRow } from './TableRow';
+import React from "react";
+import { DetailedUser } from "../../types";
+import { TableRow } from "./TableRow";
 import { tableHeaderCell } from "../../constants/index";
 interface DataTableProps {
   users: DetailedUser[];
-  onEdit: (user:  DetailedUser) => void;
+  onEdit: (user: DetailedUser) => void;
   onDelete: (id: number) => void;
   onViewDetails: (user: DetailedUser) => void;
 }
-export const DataTable: React.FC<DataTableProps> = 
-        ({ users, onEdit, onDelete, onViewDetails }) => {
-// export class DataTable extends Component<DataTableProps> { render() {//
-// const { users, onEdit, onDelete, onViewDetails } = this.props;//
+export const DataTable: React.FC<DataTableProps> = ({
+  users,
+  onEdit,
+  onDelete,
+  onViewDetails,
+}) => {
   if (users.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow-md p-8 text-center">
@@ -27,9 +27,7 @@ export const DataTable: React.FC<DataTableProps> =
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className={tableHeaderCell}>
-                ID
-              </th>
+              <th className={tableHeaderCell}>ID</th>
               <th className={tableHeaderCell}>Name</th>
               <th className={tableHeaderCell}>Email</th>
               <th className={tableHeaderCell}>Phone</th>
@@ -52,5 +50,4 @@ export const DataTable: React.FC<DataTableProps> =
       </div>
     </div>
   );
-  }
-// }//
+};

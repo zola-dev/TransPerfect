@@ -1,7 +1,4 @@
-import {
-  //React,
-  Component,
-} from "react";
+import React from "react";
 import { DetailedUser } from "../../types";
 import clsx from "clsx";
 import {
@@ -18,45 +15,43 @@ interface TableRowProps {
   onViewDetails: (user: DetailedUser) => void;
 }
 export const TableRow: React.FC<TableRowProps> = ({
-           user, onEdit, onDelete, onViewDetails }) => {
-// export class TableRow extends Component<TableRowProps> { render() {//
-// const { user, onEdit, onDelete, onViewDetails } = this.props; //
-     return (
-      <tr
-        onClick={() => onViewDetails(user)}
-        className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
-      >
-        <td className={clsx(cellBaseClass, textGray900)}>{user.id}</td>
-        <td className={clsx(cellBaseClass, textGray900)}>{user.name}</td>
-        <td className={clsx(cellBaseClass, textGray600)}>{user.email}</td>
-        <td className={clsx(cellBaseClass, textGray600)}>{user.phone}</td>
-        <td className={clsx(cellBaseClass, textGray600)}>
-          {user.company.name}
-        </td>
-        <td className={clsx(cellBaseClass)}>
-          <div className="flex gap-2">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onEdit(user);
-              }}
-              className={editButtonClass}
-            >
-              Edit
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(user.id);
-              }}
-              className={deleteButtonClass}
-            >
-              Delete
-            </button>
-          </div>
-        </td>
-      </tr>
-    );
-   } 
-//}//
-
+  user,
+  onEdit,
+  onDelete,
+  onViewDetails,
+}) => {
+  return (
+    <tr
+      onClick={() => onViewDetails(user)}
+      className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
+    >
+      <td className={clsx(cellBaseClass, textGray900)}>{user.id}</td>
+      <td className={clsx(cellBaseClass, textGray900)}>{user.name}</td>
+      <td className={clsx(cellBaseClass, textGray600)}>{user.email}</td>
+      <td className={clsx(cellBaseClass, textGray600)}>{user.phone}</td>
+      <td className={clsx(cellBaseClass, textGray600)}>{user.company.name}</td>
+      <td className={clsx(cellBaseClass)}>
+        <div className="flex gap-2">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(user);
+            }}
+            className={editButtonClass}
+          >
+            Edit
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(user.id);
+            }}
+            className={deleteButtonClass}
+          >
+            Delete
+          </button>
+        </div>
+      </td>
+    </tr>
+  );
+};
