@@ -2,15 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { UserForm } from "../forms/UserForm";
-import { User, DetailedUser } from "../../types/user.types";
-
+import { DetailedUser } from "../../types/user.types";
 interface UserFormModalProps {
   toggle: () => void;
   user: DetailedUser | null;
   mode: "view" | "edit" | "add";
   onSave: (userData: DetailedUser) => void;
 }
-
 const UserFormModal: React.FC<UserFormModalProps> = ({
   toggle,
   user,
@@ -20,7 +18,6 @@ const UserFormModal: React.FC<UserFormModalProps> = ({
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) toggle();
   };
-
   return (
     <motion.div
       onClick={handleOverlayClick}
@@ -40,17 +37,19 @@ const UserFormModal: React.FC<UserFormModalProps> = ({
         >
           <X size={22} />
         </button>
-
         <h2 className="text-xl font-semibold mb-4">
           {mode === "add" && "Add New User"}
           {mode === "edit" && "Edit User"}
           {mode === "view" && "View User"}
         </h2>
-
-        <UserForm user={user} onSave={onSave} onCancel={toggle} readOnly={mode === "view"} />
+        <UserForm
+          user={user}
+          onSave={onSave}
+          onCancel={toggle}
+          readOnly={mode === "view"}
+        />
       </motion.div>
     </motion.div>
   );
 };
-
 export default UserFormModal;
