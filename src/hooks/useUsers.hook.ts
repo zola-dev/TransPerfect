@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-import { User, DetailedUser, ApiError } from "../types";
+import { useState, useEffect, useMemo, lazy } from "react";
+import { User, DetailedUser, ApiError, FilterOptions  } from "../types";
 import { useUsersService, UseUsersState } from "../services";
 import { filter, take } from "rxjs/operators";
+import { filterAndSortUsers } from "../utils";
 export type UserMode = "view" | "edit" | "add";
 interface UseUsersResult {
   users: User[];
@@ -20,6 +21,10 @@ interface UseUsersResult {
   handleSave: (userData: DetailedUser) => void;
   handleDelete: (id: number) => void;
   closeModal: () => void;
+  filters: FilterOptions;
+  filteredUsers: User[];
+  setFilters: React.Dispatch<React.SetStateAction<FilterOptions>>
+  UserFormModal: React.LazyExoticComponent<React.FC<any>>;
 }
 export const useUsers = (): UseUsersResult => {
   const [users, setUsers] = useState<User[]>([]);
@@ -30,6 +35,12 @@ export const useUsers = (): UseUsersResult => {
   const [selectedUser, setSelectedUser] = useState<DetailedUser | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mode, setMode] = useState<UserMode>("view");
+  const [filters, setFilters] = useState<FilterOptions>({
+    searchTerm: "",
+    sortBy: "name",
+    caseSensitive: false,
+    wildcard: false,
+  });
   useEffect(() => {
     useUsersService.stateObservable
       .pipe(
@@ -81,8 +92,13 @@ export const useUsers = (): UseUsersResult => {
       console.error("Delete error:", error);
     }
   };
+  const filteredUsers = useMemo(
+    () => filterAndSortUsers(users as DetailedUser[], filters),
+    [users, filters]
+  );
 
   const closeModal = () => setIsModalOpen(false);
+  const UserFormModal = lazy(() => import("../components/modals/UserFormModal"));
   return {
     users,
     loading,
@@ -100,5 +116,9 @@ export const useUsers = (): UseUsersResult => {
     handleSave,
     handleDelete,
     closeModal,
+    filteredUsers,
+    setFilters,
+    filters,
+    UserFormModal
   };
 };

@@ -21,18 +21,11 @@ const App: React.FC = () => {
     handleDelete,
     handleSave,
     closeModal,
+    filters,
+    setFilters,
+    filteredUsers,
+    UserFormModal
   } = useUsers();
-  const [filters, setFilters] = useState<FilterOptions>({
-    searchTerm: "",
-    sortBy: "name",
-    caseSensitive: false,
-    wildcard: false,
-  });
-  const UserFormModal = lazy(() => import("./components/modals/UserFormModal"));
-  const filteredUsers = useMemo(
-    () => filterAndSortUsers(users as DetailedUser[], filters),
-    [users, filters]
-  );
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-100">
@@ -82,7 +75,7 @@ const App: React.FC = () => {
           onAddUser={handleAddUser}
         />
         <DataTable
-          users={filteredUsers}
+          users={filteredUsers as DetailedUser[]}
           onEdit={handleEditUser}
           onDelete={handleDelete}
           onViewDetails={(user) => handleViewUser(user)}
