@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect, Suspense, lazy } from "react";
 import { FilterOptions, DetailedUser } from "./types";
 import { useUsers } from "./hooks";
-
 import { filterAndSortUsers } from "./utils";
 import { LoadingSpinner, FilterBar, DataTable } from "./components";
 import "./App.css";
@@ -13,7 +12,6 @@ const App: React.FC = () => {
     error,
     useMockData,
     setUseMockData,
-    //new
     isModalOpen,
     mode,
     handleAddUser,
@@ -22,71 +20,19 @@ const App: React.FC = () => {
     handleViewUser,
     handleDelete,
     handleSave,
-    closeModal
+    closeModal,
   } = useUsers();
-  // const [users, setUsers] = useState<DetailedUser[]>([]);
-  // useEffect(() => {
-  //   setUsers(fetchedUsers as DetailedUser[]);
-  // }, [fetchedUsers]);
   const [filters, setFilters] = useState<FilterOptions>({
     searchTerm: "",
     sortBy: "name",
     caseSensitive: false,
     wildcard: false,
   });
-  // const [selectedUser, setSelectedUser] = useState<DetailedUser | null>(null);
   const UserFormModal = lazy(() => import("./components/modals/UserFormModal"));
   const filteredUsers = useMemo(
     () => filterAndSortUsers(users as DetailedUser[], filters),
     [users, filters]
   );
-  // const [mode, setMode] = useState<"view" | "edit" | "add">("view");
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // const handleAddUser = () => {
-  //   setSelectedUser(null);
-  //   setMode("add");
-  //   setIsModalOpen(true);
-  // };
-
-  // const handleEditUser = (user: DetailedUser) => {
-  //   setSelectedUser(user);
-  //   setMode("edit");
-  //   setIsModalOpen(true);
-  // };
-
-  // const handleViewUser = (user: DetailedUser) => {
-  //   setSelectedUser(user);
-  //   setMode("view");
-  //   setIsModalOpen(true);
-  // };
-  // const handleSave = (userData: DetailedUser) => {
-  //   if (selectedUser) {
-  //     setUsers((prev) =>
-  //       prev.map((u) => (u.id === userData.id ? userData : u))
-  //     );
-  //   } else {
-  //     const id = users.length > 0 ? Math.max(...users.map((u) => u.id)) + 1 : 1;
-  //     setUsers((prev) => [...prev, { ...userData, id: id }]);
-  //   }
-  //   setIsModalOpen(false);
-  // };
-
-  // const handleDelete = async (id: number) => {
-  //   if (!window.confirm("Are you sure you want to delete this user?")) {
-  //     return;
-  //   }
-
-  //   try {
-  //     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
-  //     //this.setState(prevState => ({ users: prevState.users.filter(u => u.id !== id) }));//
-  //     //await userService.deleteUser(id);//for real API
-  //     alert("User deleted successfully!");
-  //   } catch (error) {
-  //     alert("Failed to delete user. Please try again.");
-  //     console.error("Delete error:", error);
-  //   }
-  // };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-100">
@@ -148,7 +94,6 @@ const App: React.FC = () => {
           >
             <UserFormModal
               toggle={() => closeModal()}
-              //user={selectedUser}
               user={selectedUser as DetailedUser}
               mode={mode}
               onSave={handleSave}
