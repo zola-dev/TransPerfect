@@ -27,7 +27,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             </label>
             <input
               type="text"
-              placeholder="Search by name or email..."
+              placeholder="Search by name, email or city..."
               value={filters.searchTerm}
               onChange={(e) =>
                 onFilterChange({ ...filters, searchTerm: e.target.value })

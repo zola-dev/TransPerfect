@@ -1,7 +1,6 @@
 import { timer, from } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { userService, User, ApiError, MOCK_USERS } from "../index";
-
 class UseUsersService {
   fetchUsers(useMockData: boolean) {
       if (useMockData) {

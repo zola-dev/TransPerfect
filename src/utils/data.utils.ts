@@ -1,4 +1,32 @@
 import { FilterOptions, DetailedUser } from "../types";
+/**
+ * Filters and sorts an array of users based on provided filter options.
+ * 
+ * Filtering:
+ * - Searches across name, email, and city fields
+ * - Supports case-sensitive and case-insensitive matching
+ * - Supports wildcard (contains) or exact prefix matching
+ * 
+ * Sorting:
+ * - Sorts alphabetically by name, email, or company name
+ * 
+ * @param users - Array of DetailedUser objects to filter and sort
+ * @param filters - Filter configuration object
+ * @param filters.searchTerm - Text to search for in name, email, and city
+ * @param filters.caseSensitive - If true, performs case-sensitive search
+ * @param filters.wildcard - If true, matches anywhere in text (contains). If false, matches from start (prefix)
+ * @param filters.sortBy - Field to sort by: "name", "email", or "company"
+ * 
+ * @returns Filtered and sorted array of users
+ * 
+ * @example
+ * const filtered = filterAndSortUsers(allUsers, {
+ *   searchTerm: "Zola",
+ *   sortBy: "name",
+ *   caseSensitive: false,
+ *   wildcard: true
+ * });
+ */
 export const filterAndSortUsers = (
   users: DetailedUser[],
   filters: FilterOptions

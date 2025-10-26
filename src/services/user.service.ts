@@ -1,17 +1,15 @@
-import { httpClient, User } from '../index';
+import { httpClient, User } from "../index";
 class UserService {
-  private endpoint = '/users';
-
+  private endpoint = "/users";
   async getUsers(): Promise<User[]> {
     try {
       const response = await httpClient.get<User[]>(this.endpoint);
       return response.data;
     } catch (error) {
-      console.error('[UserService] Error fetching users:', error);
+      console.error("[UserService] Error fetching users:", error);
       throw error;
     }
   }
-
   async getUserById(id: number): Promise<User> {
     try {
       const response = await httpClient.get<User>(`${this.endpoint}/${id}`);
@@ -21,17 +19,18 @@ class UserService {
       throw error;
     }
   }
-
   async updateUser(id: number, user: Partial<User>): Promise<User> {
     try {
-      const response = await httpClient.put<User>(`${this.endpoint}/${id}`, user);
+      const response = await httpClient.put<User>(
+        `${this.endpoint}/${id}`,
+        user
+      );
       return response.data;
     } catch (error) {
       console.error(`[UserService] Error updating user ${id}:`, error);
       throw error;
     }
   }
-
   async deleteUser(id: number): Promise<void> {
     try {
       await httpClient.delete(`${this.endpoint}/${id}`);
@@ -42,5 +41,4 @@ class UserService {
     }
   }
 }
-
 export const userService = new UserService();

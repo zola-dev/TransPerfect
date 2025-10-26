@@ -1,7 +1,12 @@
 import React, { Suspense } from "react";
-import { DetailedUser, useUsers, LoadingSpinner, FilterBar, DataTable } from "./index";
+import {
+  DetailedUser,
+  useUsers,
+  LoadingSpinner,
+  FilterBar,
+  DataTable,
+} from "./index";
 import "./App.css";
-
 const App: React.FC = () => {
   const {
     users,
@@ -75,7 +80,7 @@ const App: React.FC = () => {
           users={filteredUsers as DetailedUser[]}
           onEdit={handleEditUser}
           onDelete={handleDelete}
-          onViewDetails={(user) => handleViewUser(user)}
+          onViewDetails={handleViewUser}
         />
 
         {isModalOpen && (
