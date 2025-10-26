@@ -9,6 +9,7 @@ import {
   UseUsersState,
   UserMode,
   UseUsersResult,
+  SweetalertService
 } from "../index";
 import { filter, take } from "rxjs/operators";
 /**
@@ -98,19 +99,25 @@ export const useUsers = (): UseUsersResult => {
       setUsers((prev) =>
         prev.map((u) => (u.id === userData.id ? userData : u))
       );
+      SweetalertService.success("User updated successfully!");
     } else {
       const id = users.length > 0 ? Math.max(...users.map((u) => u.id)) + 1 : 1;
       setUsers((prev) => [...prev, { ...userData, id: id }]);
+      SweetalertService.success("User stored successfully!");
     }
     setIsModalOpen(false);
   };
   const handleDelete = async (id: number) => {
-    if (!window.confirm("Are you sure you want to delete this user?")) return;
+    // if (!window.confirm("Are you sure you want to delete this user?")) return;
+    const confirmed = await SweetalertService.confirm("Do you want to delete this user?");
+    if (!confirmed) return;
     try {
       setUsers((prev) => prev.filter((user) => user.id !== id));
-      alert("User deleted successfully!");
+      //alert("User deleted successfully!");
+      SweetalertService.success("User deleted successfully!");
     } catch (error) {
-      alert("Failed to delete user. Please try again.");
+      //alert("Failed to delete user. Please try again.");
+      SweetalertService.error("Failed to delete user. Please try again.!");
       console.error("Delete error:", error);
     }
   };
