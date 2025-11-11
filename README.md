@@ -1,63 +1,45 @@
-# TransPerfect Assignment
 
-1.installation 
-## Getting Started
+**TransPerfect** is a **React** (**Class Components**) **user management** and **search application**. The **project** demonstrates **fetching**, **filtering**, and **displaying users** from a public **API**, implementing basic **table actions**, and adding **bonus features** for enhanced **usability**.
 
-1. **Clone the repository:**
+**Task Requirements Completed**
 
-```bash
-git clone https://github.com/zola-dev/TransPerfect.git
-cd TransPerfect
-npm install
-npm start
-Open http://localhost:3000 in your browser to test the application.
+**Data Fetching**
 
-2.Description
-TransPerfect is a React (Class Components) user management and search application.
-The project demonstrates fetching, filtering, and displaying users from a public API, implementing basic table actions, and adding bonus features for enhanced usability.
+- **Fetched users** from **JSONPlaceholder**.
+- **Showed** a **loading spinner** while **fetching data**.
+- **Stored** the **fetched data** in the **App component** **state**.
 
-Task Requirements Completed
-Data Fetching
+**Data Display**
 
-Fetched users from JSONPlaceholder
+- **Passed data** to the **UserTable** **child component**.
 
-Showed a loading spinner while fetching data
+**Data Filtering**
 
-Stored the fetched data in the App component state
+- **Created** a **Filter component** for **user input**.
+- **Filtered data** by **name** or **email**.
 
-Data Display
+**Table Actions**
 
-Passed data to the UserTable child component
+- **Delete user** from the **list**.
+- **Edit user** inline in the **table**.
 
-Data Filtering
+**Extra / Bonus Features Implemented**
 
-Created a Filter component for user input
+- **Add Users** **functionality** alongside **Delete** and **Edit**.
+- **Wildcard search option** for **flexible filtering**.
+- **Case-sensitive toggle** for **search**.
+- Used **Tailwind CSS** for **styling** the **application**.
+- **Imported clsx from "clsx"** to make **Tailwind** **cleaner** and **easier to maintain**.
+- Used **RxJS** to elevate **handling subscriptions** and **store state**.
 
-Filtered data by name or email
+**Services**
 
-Table Actions
-
-Delete user from the list
-
-Edit user inline in the table
-
-Extra / Bonus Features Implemented
-Add Users functionality alongside Delete and Edit
-
-Wildcard search option for flexible filtering
-
-Case-sensitive toggle for search
-
-Services
-
-HttpClientService handles HTTP requests
-
-UserService manages user operations
-
-For this demo, uses JSONPlaceholder mock API
-
-Easily switchable to a real backend API
-
+- **HttpClientService** **handles** **HTTP requests**.
+- **UserService** **manages** **user operations**.
+- For this **demo**, uses **JSONPlaceholder** **mock API**.
+- **Easily switchable** to a **real backend API**.
+  
+ **Functional Approach Implementation**
 
 
 
